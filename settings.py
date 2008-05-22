@@ -68,7 +68,7 @@ INSTALLED_APPS = (
 
 # per-install settings
 try:
-    import local_settings
+    from local_settings import *
 except ImportError:
     import sys
     sys.stderr.write("Error: Can't find the file 'local_settings.py' in the directory containing %r.\nYou'll need to create a file called local_settings.py based on local_settings.py.example.\n" % __file__)
