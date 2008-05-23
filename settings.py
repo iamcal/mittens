@@ -1,4 +1,7 @@
 # Django settings for mittens project.
+import os
+
+ROOT_DIR = os.path.split(__file__)[0]
 
 #ADMINS = (
     # ('Your Name', 'your_email@domain.com'),
@@ -60,6 +63,13 @@ TEMPLATE_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
 )
 
+# Template variables included in every request
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.core.context_processors.auth',
+    #'django.core.context_processors.debug',
+    'django.core.context_processors.request',
+)
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -67,7 +77,9 @@ INSTALLED_APPS = (
     #'django.contrib.sites',
     'django.contrib.admin',
     'mittens.app',
+    #'mittens.modules',
     'mittens.modules.blog',
+    'mittens.modules.flickr',
 )
 
 # per-install settings

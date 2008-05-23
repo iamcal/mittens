@@ -27,7 +27,7 @@ class SubdomainMiddleware:
             return None
         match = subdomain_re.match(host)
         if match:
-            site_subdomain = match.group(2)
+            site_subdomain = match.group(1)
             print site_subdomain
             try:
                 request.site = Site.objects.get(subdomain=site_subdomain)
