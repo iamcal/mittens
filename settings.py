@@ -55,7 +55,7 @@ MIDDLEWARE_CLASSES = (
     'mittens.app.middleware.SubdomainMiddleware',
 )
 
-ROOT_URLCONF = 'mittens.urls'
+ROOT_URLCONF = 'mittens.index.urls'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
@@ -76,8 +76,9 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     #'django.contrib.sites',
     'django.contrib.admin',
+    'mittens',
+    'mittens.index',
     'mittens.app',
-    #'mittens.modules',
     'mittens.modules.blog',
     'mittens.modules.flickr',
 )

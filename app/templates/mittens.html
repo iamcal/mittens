@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 {% block title %}{{ request.site.name }}{% endblock %}
 
-{% block column-1 %}
+
+{% block contents %}
+
+        <div id="column-1" style="width: 300px; float: left; background-color: pink">
+        foo
 
 {{ request.site.subdomain }}
 {% for module in request.site.modules.all %}
@@ -10,9 +14,9 @@
 {% endifequal %}
 {% endfor %}
 
-{% endblock %}
-
-{% block column-2 %}
+        </div>
+        <div id="column-2" style="width: 200px; float: left; background-color: lime">
+        foo
 
 {{ request.site.subdomain }}
 {% for module in request.site.modules.all %}
@@ -20,5 +24,13 @@
     {{ module.module.render }} <br />
 {% endifequal %}
 {% endfor %}
+
+        </div>
+        <div id="column-3" style="width: 200px; float: left; background-color: pink">
+        foo
+
+		nothing to see here!
+
+        </div>
 
 {% endblock %}
