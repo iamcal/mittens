@@ -9,6 +9,7 @@ class SubdomainMiddleware:
         Sets the site subdomain based on the request url.
         """
         request.site = None
+        request.__setattr__('urlconf', 'index.urls')
         parts = request.get_host().split(':', 1)
         host = parts[0]
         try:
