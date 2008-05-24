@@ -83,6 +83,9 @@ INSTALLED_APPS = (
     'mittens.modules.flickr',
 )
 
+INDEX_ADMIN_PATH = r'^admin/'
+APP_ADMIN_PATH = r'^admin/'
+
 # per-install settings
 try:
     from local_settings import *

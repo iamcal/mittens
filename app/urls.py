@@ -1,6 +1,7 @@
 from django.conf.urls.defaults import *
+from mittens import settings
 
 urlpatterns = patterns('',
-    (r'^admin/', include('django.contrib.admin.urls')),
+    (settings.APP_ADMIN_PATH, 'mittens.app.views.admin'),
     (r'^$', 'mittens.app.views.mittens'),
 )
