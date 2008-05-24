@@ -86,6 +86,11 @@ INSTALLED_APPS = (
 INDEX_ADMIN_PATH = r'^admin/'
 APP_ADMIN_PATH = r'^admin/'
 
+STATIC_FILE_PATH = os.path.join(ROOT_DIR, 'static')
+CSS_DIR = os.path.join(STATIC_FILE_PATH,'css')
+JS_DIR = os.path.join(STATIC_FILE_PATH, 'js')
+IMG_DIR = os.path.join(STATIC_FILE_PATH, 'img')
+
 # per-install settings
 try:
     from local_settings import *
