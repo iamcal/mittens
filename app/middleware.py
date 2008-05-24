@@ -31,6 +31,7 @@ class SubdomainMiddleware:
             print site_subdomain
             try:
                 request.site = Site.objects.get(subdomain=site_subdomain)
+                request.__setattr__('urlconf', 'urls_subdomain')
                 return None
             except Site.DoesNotExist:
                 raise Http404('Blog not found.')
