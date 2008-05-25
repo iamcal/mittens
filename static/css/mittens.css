@@ -36,19 +36,38 @@ body {
 #column-1-of-3 {
     width: 250px;
     float: left;
-    background-color: pink;
+    background-color: #f5f5ff;
+    min-height: 10px;
 }
 
 #column-2-of-3 {
     width: 250px;
     float: left;
-    background-color: lime;
+    background-color: #f5f5ff;
     margin-left: 25px;
+    min-height: 10px;
 }
 
 #column-3-of-3 {
     width: 250px;
     float: left;
-    background-color: pink;
+    background-color: #f5f5ff;
     margin-left: 25px;
+    min-height: 10px;
+}
+
+.module {
+    background-color: #fff;
+    border: 1px solid #3B5998;
+    margin-bottom: 1em;
+}
+
+.module-bar {
+    background-color: #3B5998;
+    color: #fff;
+    padding: 2px;
+}
+
+.module-inner {
+    padding: 0.6em;
 }

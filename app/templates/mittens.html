@@ -13,29 +13,29 @@
 
         <div id="column-1-of-3">
 
-		col 1<br />
-
 {% for module in request.site.modules.all %}
 {% ifequal module.in_column 1 %}
-    {{ module.module.render }} <br />
+{% include 'module.html' %}
 {% endifequal %}
 {% endfor %}
 
         </div>
         <div id="column-2-of-3">
 
-		col 2<br />
-
 {% for module in request.site.modules.all %}
 {% ifequal module.in_column 2 %}
-    {{ module.module.render }} <br />
+{% include 'module.html' %}
 {% endifequal %}
 {% endfor %}
 
         </div>
         <div id="column-3-of-3">
 
-		col 3<br />
+{% for module in request.site.modules.all %}
+{% ifequal module.in_column 3 %}
+{% include 'module.html' %}
+{% endifequal %}
+{% endfor %}
 
         </div>
 	<div style="clear: both"></div>

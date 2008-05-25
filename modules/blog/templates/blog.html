@@ -1,4 +1,4 @@
-<div id="blog-{{ blog.id }}" style="border: 2px solid black; padding: 1em; margin: 1em;">
+
 <h3>{{ blog.name }}</h3>
 
 {% for post in blog.posts.all %}
@@ -6,4 +6,3 @@
     <br/>
     {{ post.body }}
 {% endfor %}
-</div>
