@@ -1,3 +1,54 @@
 body {
+    background-color: #eee;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+#contents {
+    width: 800px;
+    text-align: left;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 10px;
+}
+
+#contents h1 {
+    margin: 0 0 1em 0;
+    font-size: 24pt;
+    font-weight: bold;
+}
+
+#columns {
+}
+
+#footer {
+    width: 800px;
+    text-align: center;
+    margin: 10px auto;
+    background-color: #fff;
+    padding: 10px;
+    font-size: 80%;
+    color: #ccc;
+}
+
+#column-1-of-3 {
+    width: 250px;
+    float: left;
     background-color: pink;
+}
+
+#column-2-of-3 {
+    width: 250px;
+    float: left;
+    background-color: lime;
+    margin-left: 25px;
+}
+
+#column-3-of-3 {
+    width: 250px;
+    float: left;
+    background-color: pink;
+    margin-left: 25px;
 }

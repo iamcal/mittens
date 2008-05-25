@@ -1,15 +1,20 @@
 {% extends "base.html" %}
 {% block title %}{{ request.site.name }}{% endblock %}
 {% block head %}
+<link rel="stylesheet" href="/css/reset.css" media="all" type="text/css" />
 <link rel="stylesheet" href="/css/mittens.css" media="all" type="text/css" />
 {% endblock %}
 
 {% block contents %}
 
-        <div id="column-1" style="width: 300px; float: left; background-color: pink">
-        foo
+    <h1>{{ request.site.name }} - {{ request.site.subdomain }}.{{ settings.INSTALL_DOMAIN }}</h1>
 
-{{ request.site.subdomain }}
+    <div id="columns">
+
+        <div id="column-1-of-3">
+
+		col 1<br />
+
 {% for module in request.site.modules.all %}
 {% ifequal module.in_column 1 %}
     {{ module.module.render }} <br />
@@ -17,10 +22,10 @@
 {% endfor %}
 
         </div>
-        <div id="column-2" style="width: 200px; float: left; background-color: lime">
-        foo
+        <div id="column-2-of-3">
 
-{{ request.site.subdomain }}
+		col 2<br />
+
 {% for module in request.site.modules.all %}
 {% ifequal module.in_column 2 %}
     {{ module.module.render }} <br />
@@ -28,12 +33,12 @@
 {% endfor %}
 
         </div>
-        <div id="column-3" style="width: 200px; float: left; background-color: pink">
-        foo
+        <div id="column-3-of-3">
 
-		nothing to see here!
+		col 3<br />
 
         </div>
 	<div style="clear: both"></div>
+    </div>
 
 {% endblock %}
