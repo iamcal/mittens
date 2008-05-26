@@ -21,10 +21,11 @@ class ModuleLink(models.Model):
     module_id = models.PositiveIntegerField(_('module id'))
     in_column = models.PositiveIntegerField(_('in column'))
     in_order = models.PositiveIntegerField(_('in order'))
-    
+
     class Meta:
         ordering = ('in_column', 'in_order',)
-    
+
+
     class Admin:
         list_display = ('id', 'site', 'module_type', 'module_id', 'module', 'in_column', 'in_order',)
 
