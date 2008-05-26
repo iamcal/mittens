@@ -60,12 +60,15 @@ body {
     background-color: #fff;
     border: 1px solid #3B5998;
     margin-bottom: 1em;
+    width: 250px;
 }
 
 .module-bar {
     background-color: #3B5998;
     color: #fff;
     padding: 2px;
+    cursor: hand;
+    cursor: pointer;
 }
 
 .module-inner {
