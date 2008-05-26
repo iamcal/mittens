@@ -16,8 +16,9 @@ $(document).ready(function(){
 		connectWith: ['.column'],
 		revert: true,
 		containment: 'document',
+		placeholder: 'module-insert',
 		remove: function(e,ui) {
-			console.log("removed ", ui.item);
+			//console.log("removed ", ui.item);
 		},
 		start: function(){
 			$('.column').css('min-height', '200px');
