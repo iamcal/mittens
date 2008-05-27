@@ -24,9 +24,13 @@
 <div id="admin-pane">
 	<h2>Current Module Admin</h2>
 	<br />
+{% if current_module %}
 	{{ current_module.name }}<br />
         <a href="{{ current_module.admin_root }}woo/yay/">link to a sub admin page for this module</a><br />
 	{{ current_module.render_admin }}<br />
+{% else %}
+	OMG! No module selected! We should have probably re-directed you to the first module or something!
+{% endif %}
 </div>
 
 <div style="clear: both"></div>
