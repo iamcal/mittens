@@ -8,6 +8,7 @@ class Site(models.Model):
     name = models.CharField(_('name'), max_length=255) # display name (e.g. Leah's Mittens)
     date_created = models.DateTimeField(_('date created'), default=datetime.datetime.now)
     date_modified = models.DateTimeField(_('date modified'), default=datetime.datetime.now)
+    #template = models.CharField(_('template'), max_length=255) # template name (e.g. '3-column')
 
     def __unicode__(self):
         return self.name
@@ -39,6 +40,8 @@ class ModuleLink(models.Model):
         module_name = self.module_type.lower()
         model = getattr(__import__('modules.%s.models' % module_name, '', '', module_name), module_name.capitalize())
         # return instance of module model (e.g. a Blog)
-        return model.objects.get(id=self.module_id)
+        instance = model.objects.get(id=self.module_id)
+        instance.link = self
+        return instance
     module = property(_get_module)
 

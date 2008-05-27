@@ -1,11 +1,34 @@
 {% extends "base.html" %}
 {% block title %}Admin : {{ request.site.name }}{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="/css/reset.css" media="all" type="text/css" />
+<link rel="stylesheet" href="/css/admin.css" media="all" type="text/css" />
+{% endblock %}
 
 {% block contents %}
 
-<h3>Modules</h3>
+<h1>Admin</h1>
+
+<div id="module-list">
+	<h2>Your Modules</h2>
+	<br />
 {% for module in request.site.modules.all %}
-    {{ module }}
+{% ifequal module.id current_module.link.id %}
+	<div class="module current"><a href="/admin/{{ module.id }}/">{{ module.module.name }} - {{ module.id }}</a></div>
+{% else %}
+	<div class="module"><a href="/admin/{{ module.id }}/">{{ module.module.name }} - {{ module.id }}</a></div>
+{% endifequal %}
 {% endfor %}
+</div>
+
+<div id="admin-pane">
+	<h2>Current Module Admin</h2>
+	<br />
+	{{ current_module.name }}<br />
+        <a href="{{ current_module.admin_root }}woo/yay/">link to a sub admin page for this module</a><br />
+	{{ current_module.render_admin }}<br />
+</div>
+
+<div style="clear: both"></div>
 
 {% endblock %}

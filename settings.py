@@ -84,8 +84,8 @@ INSTALLED_APPS = (
     'mittens.modules.flickr',
 )
 
-INDEX_ADMIN_PATH = r'^admin/'
-APP_ADMIN_PATH = r'^admin/'
+INDEX_ADMIN_PATH = 'admin'
+APP_ADMIN_PATH = 'admin'
 
 STATIC_FILE_PATH = os.path.join(ROOT_DIR, 'static')
 CSS_DIR = os.path.join(STATIC_FILE_PATH,'css')
