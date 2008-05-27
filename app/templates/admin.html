@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Admin : {{ request.site.name }}{% endblock %}
+
+{% block contents %}
+
+<h3>Modules</h3>
+{% for module in request.site.modules.all %}
+    {{ module }}
+{% endfor %}
+
+{% endblock %}
