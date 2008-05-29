@@ -33,14 +33,12 @@ body {
 #module-list {
     float: left;
     width: 250px;
-	background-color: lime;
 }
 
 #admin-pane {
     float: left;
     width: 525px;
     margin-left: 25px;
-	background-color: lime;
 }
 
 #module-list .module {
@@ -62,4 +60,9 @@ body {
     border-left: 8px solid #728BC2;
     border-bottom: 1px solid #728BC2;
     color: #ffffff;
+}
+
+.admin-sub-pane {
+    border: 1px solid #3B5998;
+    padding: 0.5em;
 }

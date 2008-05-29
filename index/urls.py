@@ -3,7 +3,7 @@ from mittens import urls
 from mittens import settings
 
 urlpatterns = patterns('',
-    (settings.INDEX_ADMIN_PATH, include('django.contrib.admin.urls')),
+    (r'^%s/' % settings.INDEX_ADMIN_PATH, include('django.contrib.admin.urls')),
     (r'^$', 'mittens.index.views.index'),
 )
 urlpatterns += urls.urlpatterns

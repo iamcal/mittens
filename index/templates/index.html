@@ -1,8 +1,25 @@
 {% extends "base.html" %}
-{% block title %}{{ request.site.name }}{% endblock %}
+{% block title %}Mittens{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="/css/index.css" media="all" type="text/css" />
+{% endblock %}
 
-{% block content %}
+{% block contents %}
 
-&lt;3 mittens
+<h1>Mittens Index</h1>
+
+<ul>
+	<li> <a href="#">Create a new site</a> </li>
+	<li> <a href="#">Manage your site</a> </li>
+</ul>
+
+<h2>All sites:</h2>
+
+<ul>
+{% for site in sites.all %}
+	<li> {{ site.id }} - <a href="http://{{ site.subdomain }}.{{ settings.INSTALL_DOMAIN }}:8000">{{ site.name }}</a> </li>
+{% endfor %}
+</ul>
+
 
 {% endblock %}

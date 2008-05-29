@@ -20,6 +20,12 @@ body {
     font-weight: bold;
 }
 
+#contents h3 {
+    margin: 0 0 0.5em 0;
+    font-size: 16pt;
+    font-weight: bold;
+}
+
 #columns {
 }
 
@@ -77,4 +83,10 @@ body {
 
 .module-insert {
     border: 1px dashed #3B5998;
+}
+
+.extras {
+    margin-top: 1em;
+    border: 1px solid #3B5998;
+    padding: 0.5em;
 }

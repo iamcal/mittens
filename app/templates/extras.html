@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}{{ request.site.name }}{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="/css/reset.css" media="all" type="text/css" />
+<link rel="stylesheet" href="/css/mittens.css" media="all" type="text/css" />
+{% endblock %}
+
+{% block contents %}
+
+    <h1>{{ request.site.name }} - {{ request.site.subdomain }}.{{ settings.INSTALL_DOMAIN }}</h1>
+
+    <p><a href="/">&laquo; Back home</a></p>
+
+    <div class="extras">
+
+    {{ current_module.render_module }}
+
+    </div>
+
+{% endblock %}
