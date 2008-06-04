@@ -35,7 +35,12 @@ def admin(request, moduleid=0, extra=''):
         print request.POST
         form = forms.ModuleLinkForm(request.installed_modules, request.POST)
         if form.is_valid():
-            form.save(form.cleaned_data)
+            form.update(form.cleaned_data)
+            add_url = form.get_add_url()
+            if add_url:
+                return http.HttpResponseRedirect(add_url)
+            #form.save(form.cleaned_data)
+            #form.save_or_redirect(form.cleaned_data)
         else:
             print form.errors
     else:

@@ -4,29 +4,39 @@ from django.utils.translation import ugettext_lazy as _
 from mittens import settings
 import datetime
 
+class ModuleInfo:
+    def __init__(self, type, settings, path, name):
+        self.type = type
+        self.settings = settings
+        self.path = path
+        self.name = name
+        
+    @staticmethod
+    def from_path(path):
+        type = path.rsplit('.', 1)[1].lower()
+        # TODO define these in the module settings
+        try:
+            settings = __import__('%s.settings' % path, '', '', 'settings')
+            name = settings.DISPLAY_NAME
+        except:
+            settings = None
+            name = type.capitalize()
+        return ModuleInfo(type, settings, path, name)
+
 class InstalledModules:
 
     def __init__(self):
         # create a module definition for each installed module
         self.modules = []
         for path in settings.INSTALLED_MODULES:
-            #model = getattr(__import__('%s.models' % module_path, '', '', module_name), module_name.capitalize())
-            # TODO define these in the module settings
-            type = path.rsplit('.', 1)[1].lower()
-            name = type.capitalize()
-            self.modules.append(self.ModuleDefinition(type, name, path))
+            self.modules.append(ModuleInfo.from_path(path))
 
-    def get_choices(self):
+    def get_path_choices(self):
         choices = []
         for module in self.modules:
-            choices.append((module.type, module.name))
+            choices.append((module.path, module.name))
         return choices
-    
-    class ModuleDefinition:
-        def __init__(self, type, name, path):
-            self.type = type
-            self.name = name
-            self.path = path
+
 
 class Site(models.Model):
     subdomain = models.CharField(_('subdomain'), max_length=63, unique=True, db_index=True, validator_list=[validators.isAlphaNumeric])
