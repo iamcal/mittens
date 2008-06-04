@@ -3,6 +3,8 @@ import os
 
 ROOT_DIR = os.path.split(__file__)[0]
 
+APPEND_SLASH = True
+
 #ADMINS = (
     # ('Your Name', 'your_email@domain.com'),
 #)
@@ -53,6 +55,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     #'django.middleware.doc.XViewMiddleware',
     'mittens.app.middleware.SubdomainMiddleware',
+    'mittens.app.middleware.InstalledModulesMiddleware',
 )
 
 ROOT_URLCONF = 'mittens.index.urls'
@@ -71,6 +74,11 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'mittens.context_processors.settings',
 )
 
+INSTALLED_MODULES = (
+    'mittens.modules.blog',
+    'mittens.modules.flickr',
+)
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -80,9 +88,8 @@ INSTALLED_APPS = (
     'mittens',
     'mittens.index',
     'mittens.app',
-    'mittens.modules.blog',
-    'mittens.modules.flickr',
 )
+INSTALLED_APPS += INSTALLED_MODULES
 
 INDEX_ADMIN_PATH = 'admin'
 APP_ADMIN_PATH = 'admin'

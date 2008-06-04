@@ -1,6 +1,6 @@
 from django.http import Http404, HttpResponseRedirect
 from mittens import settings
-from mittens.app.models import Site
+from mittens.app.models import Site, InstalledModules
 import re
 
 class SubdomainMiddleware:
@@ -38,4 +38,12 @@ class SubdomainMiddleware:
                 raise Http404('Blog not found.')
         # TODO match against site_subdomain from db
         #print 'site not matched!'
+        return None
+
+class InstalledModulesMiddleware:
+    def process_request(self, request):
+        """
+        Checks for all installed modules.
+        """
+        request.installed_modules = InstalledModules()
         return None

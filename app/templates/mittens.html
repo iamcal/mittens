@@ -48,6 +48,15 @@ $(document).ready(function(){
 
     <h1>{{ request.site.name }} - {{ request.site.subdomain }}.{{ settings.INSTALL_DOMAIN }}</h1>
 
+<div id="edit-mode">
+    {% if edit_mode %}
+        <a href='/'>View</a>
+    {% else %}
+        <a href='/edit/'>Edit</a>
+    {% endif %}
+    <a href='/admin/'>Admin</a>
+</div>
+
     <div id="columns">
 
         <div id="column-1-of-3" class="column">

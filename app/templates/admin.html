@@ -9,16 +9,28 @@
 
 <h1>Admin</h1>
 
+<div>
+    <a href="/">View Site</a>
+</div>
+
+<div id="add-module">
+    <form id="add-module-form" method="post">
+        <label for="id_module_type">Add new module</label>
+        {{ form.module_type }}
+        <input type="submit" value="Add" class="button" />
+    </form>
+</div>
+
 <div id="module-list">
 	<h2>Your Modules</h2>
 	<br />
-{% for module in request.site.modules.all %}
-{% ifequal module.id current_module.link.id %}
-	<div class="module current"><a href="/admin/{{ module.id }}/">{{ module.module.name }} - {{ module.id }}</a></div>
-{% else %}
-	<div class="module"><a href="/admin/{{ module.id }}/">{{ module.module.name }} - {{ module.id }}</a></div>
-{% endifequal %}
-{% endfor %}
+    {% for module in request.site.modules.all %}
+        {% ifequal module.id current_module.link.id %}
+	       <div class="module current"><a href="/admin/{{ module.id }}/">{{ module.module_label }}</a></div>
+        {% else %}
+	       <div class="module"><a href="/admin/{{ module.id }}/">{{ module.module_label }}</a></div>
+        {% endifequal %}
+    {% endfor %}
 </div>
 
 <div id="admin-pane">

@@ -3,6 +3,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
     <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="/css/reset.css" media="all" type="text/css" />
+    {% block css %}{% endblock %}
+    {% block js %}{% endblock %}
     {% block head %}{% endblock %}
 </head>
 <body>
@@ -10,7 +13,7 @@
         {% block contents %}{% endblock %}
     </div>
     <div id="footer">
-        Made with Mittens
+        {% block footer %}Made with Mittens{% endblock %}
     </div>
 </body>
 </html>

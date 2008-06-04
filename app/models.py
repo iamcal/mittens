@@ -1,7 +1,32 @@
 from django.db import models
 from django.core import validators
 from django.utils.translation import ugettext_lazy as _
+from mittens import settings
 import datetime
+
+class InstalledModules:
+
+    def __init__(self):
+        # create a module definition for each installed module
+        self.modules = []
+        for path in settings.INSTALLED_MODULES:
+            #model = getattr(__import__('%s.models' % module_path, '', '', module_name), module_name.capitalize())
+            # TODO define these in the module settings
+            type = path.rsplit('.', 1)[1].lower()
+            name = type.capitalize()
+            self.modules.append(self.ModuleDefinition(type, name, path))
+
+    def get_choices(self):
+        choices = []
+        for module in self.modules:
+            choices.append((module.type, module.name))
+        return choices
+    
+    class ModuleDefinition:
+        def __init__(self, type, name, path):
+            self.type = type
+            self.name = name
+            self.path = path
 
 class Site(models.Model):
     subdomain = models.CharField(_('subdomain'), max_length=63, unique=True, db_index=True, validator_list=[validators.isAlphaNumeric])
@@ -20,8 +45,9 @@ class ModuleLink(models.Model):
     site = models.ForeignKey(Site, primary_key=False, related_name='modules', raw_id_admin=True)
     module_type = models.CharField(_('module type name'), max_length=255) # e.g. blog
     module_id = models.PositiveIntegerField(_('module id'))
-    in_column = models.PositiveIntegerField(_('in column'))
-    in_order = models.PositiveIntegerField(_('in order'))
+    module_label = models.SlugField(_('slug field'), db_index=True)
+    in_column = models.PositiveIntegerField(_('in column'), default=0)
+    in_order = models.PositiveIntegerField(_('in order'), default=0)
 
     class Meta:
         ordering = ('in_column', 'in_order',)

@@ -2,12 +2,14 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django import http
 from mittens.app import models
+from mittens.app import forms
 from mittens import settings
 
-def mittens(request):
+def mittens(request, edit_mode=False):
     settings.request = request
 
     return render_to_response('mittens.html', {
+        'edit_mode': edit_mode,
     }, context_instance=RequestContext(request))
 
 def extras(request, moduleid=0, extra=''):
@@ -28,9 +30,20 @@ def admin(request, moduleid=0, extra=''):
             url = "/admin/%s/" % m.id
             return http.HttpResponseRedirect(url)
         print "oops - we need to show a 'no modules' page..."
+    
+    if request.method == 'POST':
+        print request.POST
+        form = forms.ModuleLinkForm(request.installed_modules, request.POST)
+        if form.is_valid():
+            form.save(form.cleaned_data)
+        else:
+            print form.errors
+    else:
+        form = forms.ModuleLinkForm(request.installed_modules)
 
     return render_to_response('admin.html', {
         'current_module': module,
+        'form': form,
     }, context_instance=RequestContext(request))
 
 
