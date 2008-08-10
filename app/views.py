@@ -36,15 +36,9 @@ def admin_edit(request, moduleid=0, extra=''):
             return http.HttpResponseRedirect(url)
     
     if request.method == 'POST':
-        print request.POST
         form = forms.ModuleLinkForm(request.installed_modules, request.POST)
         if form.is_valid():
-            form.update(form.cleaned_data)
-            add_url = form.get_add_url()
-            if add_url:
-                return http.HttpResponseRedirect(add_url)
-            #form.save(form.cleaned_data)
-            #form.save_or_redirect(form.cleaned_data)
+            return http.HttpResponseRedirect(form.get_add_url(form.cleaned_data))
         else:
             print form.errors
     else:
@@ -54,6 +48,17 @@ def admin_edit(request, moduleid=0, extra=''):
         'admin_mode': 'EDIT',
         'current_module': module,
         'form': form,
+    }, context_instance=RequestContext(request))
+
+def admin_layout(request):
+    return render_to_response('admin/layout.html', {
+        'admin_mode': 'LAYOUT',
+    }, context_instance=RequestContext(request))
+    
+def admin_add(request, module_type):
+    return render_to_response('admin/add.html', {
+        'admin_mode': 'ADD',
+        'module_type': module_type,
     }, context_instance=RequestContext(request))
 
 

@@ -1,5 +1,6 @@
 from django.db import models
 from django.core import validators
+from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from mittens import settings
 import datetime
@@ -10,6 +11,12 @@ class ModuleInfo:
         self.settings = settings
         self.path = path
         self.name = name
+    
+    def add_url(self):
+        #return reverse('admin_add', urlconf='app.urls', args=[self.type], kwargs=None)
+        #url = reverse('admin_add', urlconf='app.urls', kwargs={'module_type': self.type})
+        #print url
+        return '/%s/add/%s/' % (settings.APP_ADMIN_PATH, self.type)
         
     @staticmethod
     def from_path(path):

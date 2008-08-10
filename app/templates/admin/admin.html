@@ -11,7 +11,7 @@
     {{ request.site.name }} Admin
     
     {% ifnotequal admin_mode 'EDIT' %}
-        <a href="">Edit</a>
+        <a href="/admin/edit/">Edit</a>
     {% endifnotequal %}
     
     {% ifnotequal admin_mode 'LAYOUT' %}
