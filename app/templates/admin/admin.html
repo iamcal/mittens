@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Admin : {{ request.site.name }}{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="/css/reset.css" media="all" type="text/css" />
+<link rel="stylesheet" href="/css/admin.css" media="all" type="text/css" />
+{% endblock %}
+
+{% block header %}
+<div id="admin-title">
+
+    {{ request.site.name }} Admin
+    
+    {% ifnotequal admin_mode 'EDIT' %}
+        <a href="">Edit</a>
+    {% endifnotequal %}
+    
+    {% ifnotequal admin_mode 'LAYOUT' %}
+        <a href="/admin/layout/">Layout</a>
+    {% endifnotequal %}
+    
+    <a href="/">View Site</a>
+
+</div>
+{% endblock %}
