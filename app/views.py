@@ -20,16 +20,20 @@ def extras(request, moduleid=0, extra=''):
         'current_module': module,
     }, context_instance=RequestContext(request))
     
-def admin(request, moduleid=0, extra=''):
+def admin_edit(request, moduleid=0, extra=''):
     settings.request = request
     module = get_this_module(moduleid, extra)
 
     if not module:
-        # if i knew how to get the first value, we wouldn;t need a loop!
-        for m in request.site.modules.all():
-            url = "/admin/%s/" % m.id
+        try: # cal - exception handling is FAST in python, heh
+            # get the first module
+            # TODO make this the first by user pref
+            module = request.site.modules.all()[0]
+        except IndexError:
+            print "oops - we need to show a 'no modules' page..."
+        else: # TODO use reverse() function
+            url = "/admin/edit/%s/" % module.id
             return http.HttpResponseRedirect(url)
-        print "oops - we need to show a 'no modules' page..."
     
     if request.method == 'POST':
         print request.POST
@@ -46,7 +50,8 @@ def admin(request, moduleid=0, extra=''):
     else:
         form = forms.ModuleLinkForm(request.installed_modules)
 
-    return render_to_response('admin.html', {
+    return render_to_response('admin/edit.html', {
+        'admin_mode': 'EDIT',
         'current_module': module,
         'form': form,
     }, context_instance=RequestContext(request))
