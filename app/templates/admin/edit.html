@@ -11,7 +11,7 @@
         {% else %}
 	       <div class="module">
         {% endifequal %}
-            <a href="/admin/{{ module.id }}/">{{ module.module_label }}</a>
+            <a href="/admin/edit/{{ module.module_label }}/">{{ module.module_label }}</a>
         </div>
     {% endfor %}
     <form id="add-module-form" method="post">

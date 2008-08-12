@@ -11,17 +11,17 @@ def mittens(request):
         'edit_mode': False,
     }, context_instance=RequestContext(request))
 
-def extras(request, moduleid=0, extra=''):
+def extras(request, module_label, extra=''):
     settings.request = request
-    module = get_this_module(moduleid, extra)
+    module = get_this_module(module_label, extra)
 
     return render_to_response('extras.html', {
         'current_module': module,
     }, context_instance=RequestContext(request))
     
-def admin_edit(request, moduleid=0, extra=''):
+def admin_edit(request, module_label, extra=''):
     settings.request = request
-    module = get_this_module(moduleid, extra)
+    module = get_this_module(module_label, extra)
 
     if not module:
         try: # cal - exception handling is FAST in python, heh
@@ -31,7 +31,7 @@ def admin_edit(request, moduleid=0, extra=''):
         except IndexError:
             print "oops - we need to show a 'no modules' page..."
         else: # TODO use reverse() function
-            url = "/admin/edit/%s/" % module.id
+            url = "/admin/edit/%s/" % module.module_label
             return http.HttpResponseRedirect(url)
     
     if request.method == 'POST':
@@ -62,10 +62,10 @@ def admin_add(request, module_type):
     }, context_instance=RequestContext(request))
 
 
-def get_this_module(moduleid, extra):
+def get_this_module(module_label, extra):
 
     try:
-        module = models.ModuleLink.objects.get(id=moduleid).module
+        module = models.ModuleLink.objects.get(module_label=module_label).module
     except:
         return None
 
