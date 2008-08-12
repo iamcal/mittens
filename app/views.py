@@ -5,11 +5,10 @@ from mittens.app import models
 from mittens.app import forms
 from mittens import settings
 
-def mittens(request, edit_mode=False):
+def mittens(request):
     settings.request = request
-
     return render_to_response('mittens.html', {
-        'edit_mode': edit_mode,
+        'edit_mode': False,
     }, context_instance=RequestContext(request))
 
 def extras(request, moduleid=0, extra=''):
@@ -53,6 +52,7 @@ def admin_edit(request, moduleid=0, extra=''):
 def admin_layout(request):
     return render_to_response('admin/layout.html', {
         'admin_mode': 'LAYOUT',
+        'edit_mode': True,
     }, context_instance=RequestContext(request))
     
 def admin_add(request, module_type):

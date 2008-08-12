@@ -1,11 +1,11 @@
 <div class="module module-{{ module.module.module_name }}" id="{{ module.module.module_name }}-{{ module.module_id }}">
-{% if edit_mode %}
-    <div class="module-bar">
-        <span style="float: right;">X</span>
-        {{ module.module_label }}
+    {% if edit_mode %}
+        <div class="module-bar">
+            <span style="float: right;">X</span>
+            {{ module.module_label }}
+        </div>
+    {% endif %}
+    <div class="module-inner module-inner-{{ module.module.module_name }}">
+        {{ module.module.render }}
     </div>
-{% endif %}
-<div class="module-inner module-inner-{{ module.module.module_name }}">
-    {{ module.module.render }}
-</div>
 </div>

@@ -3,45 +3,6 @@
 {% block head %}
 <link rel="stylesheet" href="/css/reset.css" media="all" type="text/css" />
 <link rel="stylesheet" href="/css/mittens.css" media="all" type="text/css" />
-<script src="/js/jquery-1.2.6.min.js"></script>
-<script src="/js/ui.base-1.5b2.js"></script>
-<script src="/js/ui.sortable-1.5b2.js"></script>
-<script>
-
-$(document).ready(function(){
-
-	$(".column").sortable({
-		items: '> .module',
-		handle: '> .module-bar',
-		connectWith: ['.column'],
-		revert: true,
-		containment: 'document',
-		placeholder: 'module-insert',
-		remove: function(e,ui) {
-			//console.log("removed ", ui.item);
-		},
-		start: function(){
-			$('.column').css('min-height', '200px');
-		},
-		stop: function(){
-			$('.column').css('min-height', '10px');
-		}
-	});
-
-});
-
-</script>
-<style>
-
-.droppable-active {
-	background-color: pink;
-}
-
-.droppable-hover {
-	background-color: lime;
-}
-
-</style>
 {% endblock %}
 
 {% block contents %}
@@ -52,36 +13,6 @@ $(document).ready(function(){
     <a href='/admin/edit/'>Admin</a>
 </div>
 
-    <div id="columns">
-
-        <div id="column-1-of-3" class="column">
-
-{% for module in request.site.modules.all %}
-{% ifequal module.in_column 1 %}
-{% include 'module.html' %}
-{% endifequal %}
-{% endfor %}
-
-        </div>
-        <div id="column-2-of-3" class="column">
-
-{% for module in request.site.modules.all %}
-{% ifequal module.in_column 2 %}
-{% include 'module.html' %}
-{% endifequal %}
-{% endfor %}
-
-        </div>
-        <div id="column-3-of-3" class="column">
-
-{% for module in request.site.modules.all %}
-{% ifequal module.in_column 3 %}
-{% include 'module.html' %}
-{% endifequal %}
-{% endfor %}
-
-        </div>
-	<div style="clear: both"></div>
-    </div>
+{% include 'grid.html' %}
 
 {% endblock %}
