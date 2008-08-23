@@ -26,8 +26,11 @@ class Module:
     def render_module(self):
         return self.render_template('/module' + self.request_path)
 
-    def render_admin(self):
-        return self.render_template('/admin' + self.request_path)
+    def render_admin_edit(self):
+        return self.render_template('/admin/edit' + self.request_path)
+
+    def render_admin_add(self):
+        return self.render_template('/admin/add' + self.request_path)
 
     def render_template(self, path):
         resolver = get_resolver('mittens.modules.%s.urls' % self.module_name)
