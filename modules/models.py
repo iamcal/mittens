@@ -7,27 +7,16 @@ class Module:
 
     instance = None		# points to the ModuleInstance
     request_path = '/'	# the request sub-path
-    settings = None
-    display_name = None
 
     @staticmethod
     def from_path(path):
         type = path.rsplit('.', 1)[1].lower()
-        return Module.from_type(type, path)
+        return Module.from_type(type)
     
     @staticmethod
-    def from_type(type, path=None):
+    def from_type(type):
         module = Module()
         module.type = type
-        if path is None:
-            path = 'mittens.modules.%s' % type
-        module.path = path
-        # TODO define these in the module settings
-        try:
-            module.settings = __import__('%s.settings' % path, '', '', 'settings')
-            module.display_name = settings.DISPLAY_NAME
-        except:
-            module.display_name = type.capitalize()
         return module
     
     def _get_type(self):
@@ -41,6 +30,18 @@ class Module:
     def _get_url_path(self):
         return '%s.urls' % self.path
     url_path = property(_get_url_path)
+
+    def _get_settings(self):
+        # throws ImportError if settings file is missing
+        return __import__('%s.settings' % self.path, '', '', 'settings')
+    settings = property(_get_settings)
+    
+    def _get_display_name(self):
+        try:
+            return self.settings.DISPLAY_NAME
+        except ImportError:
+            return self.type.capitalize()
+    display_name = property(_get_display_name)
 
     def _get_module_root(self):
         return "/%s/" % self.instance.module_label

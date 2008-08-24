@@ -14,10 +14,10 @@ class InstalledModules:
         for path in settings.INSTALLED_MODULES:
             self.modules.append(Module.from_path(path))
 
-    def get_path_choices(self):
+    def get_type_choices(self):
         choices = []
         for module in self.modules:
-            choices.append((module.path, module.display_name))
+            choices.append((module.type, module.display_name))
         return choices
 
 class Site(models.Model):

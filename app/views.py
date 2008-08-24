@@ -35,13 +35,13 @@ def admin_edit(request, module_label, extra=''):
             return http.HttpResponseRedirect(url)
     
     if request.method == 'POST':
-        form = forms.ModuleInstanceForm(request.installed_modules, request.POST)
+        form = forms.ModuleInstanceForm(request.POST)
         if form.is_valid():
             return http.HttpResponseRedirect(form.get_add_url(form.cleaned_data))
         else:
             print form.errors
     else:
-        form = forms.ModuleInstanceForm(request.installed_modules)
+        form = forms.ModuleInstanceForm()
 
     return render_to_response('admin/edit.html', {
         'admin_mode': 'EDIT',
