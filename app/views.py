@@ -56,14 +56,10 @@ def admin_layout(request):
     }, context_instance=RequestContext(request))
     
 def admin_add(request, module_type):
-    print 'admin add type: %s' % module_type
-    module = Module.from_type(module_type)
     return render_to_response('admin/add.html', {
         'admin_mode': 'ADD',
-        'module': module,
-        'module_type': module_type,
+        'module': Module.from_type(module_type),
     }, context_instance=RequestContext(request))
-
 
 def get_this_module(module_label, extra):
 
