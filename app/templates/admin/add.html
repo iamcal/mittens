@@ -2,5 +2,9 @@
 
 {% block contents %}
     Add {{ module_type }} here
-    {% block add_form %}{% endblock %}
+    <div style="border: 3px solid red; padding: 2em;">
+        <!-- this doesn't do anything - we need to pass an instance of the module into
+             here so we can call a method on it. however, how do you do that? who know? -->
+        {{ module.render_admin_add }}
+    </div>
 {% endblock %}

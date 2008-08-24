@@ -56,7 +56,7 @@ def admin_layout(request):
     }, context_instance=RequestContext(request))
     
 def admin_add(request, module_type):
-    return render_to_response('%s/add.html' % module_type, {
+    return render_to_response('admin/add.html', {
         'admin_mode': 'ADD',
         'module_type': module_type,
     }, context_instance=RequestContext(request))
