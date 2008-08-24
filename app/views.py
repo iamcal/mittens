@@ -1,8 +1,8 @@
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django import http
-from mittens.app import models
-from mittens.app import forms
+from mittens.app import models, forms
+from mittens.modules.models import Module
 from mittens import settings
 
 def mittens(request):
@@ -35,13 +35,13 @@ def admin_edit(request, module_label, extra=''):
             return http.HttpResponseRedirect(url)
     
     if request.method == 'POST':
-        form = forms.ModuleLinkForm(request.installed_modules, request.POST)
+        form = forms.ModuleInstanceForm(request.installed_modules, request.POST)
         if form.is_valid():
             return http.HttpResponseRedirect(form.get_add_url(form.cleaned_data))
         else:
             print form.errors
     else:
-        form = forms.ModuleLinkForm(request.installed_modules)
+        form = forms.ModuleInstanceForm(request.installed_modules)
 
     return render_to_response('admin/edit.html', {
         'admin_mode': 'EDIT',
@@ -56,8 +56,11 @@ def admin_layout(request):
     }, context_instance=RequestContext(request))
     
 def admin_add(request, module_type):
+    print 'admin add type: %s' % module_type
+    module = Module.from_type(module_type)
     return render_to_response('admin/add.html', {
         'admin_mode': 'ADD',
+        'module': module,
         'module_type': module_type,
     }, context_instance=RequestContext(request))
 
@@ -65,7 +68,7 @@ def admin_add(request, module_type):
 def get_this_module(module_label, extra):
 
     try:
-        module = models.ModuleLink.objects.get(module_label=module_label).module
+        module = models.ModuleInstance.objects.get(module_label=module_label).module
     except:
         return None
 

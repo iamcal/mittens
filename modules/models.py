@@ -2,59 +2,68 @@ from django.template import loader
 from django.core.urlresolvers import get_resolver
 from mittens import settings
 
+# base class for each type of module
 class Module:
 
-    link = None		# points to the ModuleLink for this module instance
+    instance = None		# points to the ModuleInstance
     request_path = '/'	# the request sub-path
-    
-    def __init__(self, type, settings, path, name):
-        self.type = type
-        self.settings = settings
-        self.path = path
-        self.name = name
-        
+    settings = None
+    display_name = None
+
     @staticmethod
     def from_path(path):
         type = path.rsplit('.', 1)[1].lower()
+        return Module.from_type(type, path)
+    
+    @staticmethod
+    def from_type(type, path=None):
+        module = Module()
+        module.type = type
+        if path is None:
+            path = 'mittens.modules.%s' % type
+        module.path = path
         # TODO define these in the module settings
         try:
-            settings = __import__('%s.settings' % path, '', '', 'settings')
-            name = settings.DISPLAY_NAME
+            module.settings = __import__('%s.settings' % path, '', '', 'settings')
+            module.display_name = settings.DISPLAY_NAME
         except:
-            settings = None
-            name = type.capitalize()
-        return Module(type, settings, path, name)
+            module.display_name = type.capitalize()
+        return module
+    
+    def _get_type(self):
+        return self.__class__.__name__.lower()
+    type = property(_get_type)
+    
+    def _get_path(self):
+        return 'mittens.modules.%s' % self.type
+    path = property(_get_path)
 
     def _get_module_root(self):
-        return "/%s/" % self.link.module_label
+        return "/%s/" % self.instance.module_label
     module_root = property(_get_module_root)
 
     def _get_admin_edit_root(self):
-        return "/%s/edit/%s/" %(settings.APP_ADMIN_PATH, self.link.module_label)
+        return "/%s/edit/%s/" %(settings.APP_ADMIN_PATH, self.instance.module_label)
     admin_edit_root = property(_get_admin_edit_root)
 
     def _get_admin_add_root(self):
-        return "/%s/add/%s/" %(settings.APP_ADMIN_PATH, self.link.module_label)
+        return "/%s/add/%s/" %(settings.APP_ADMIN_PATH, self.type)
     admin_add_root = property(_get_admin_add_root)
-
-    def _get_module_name(self):
-        return self.__class__.__name__.lower()
-    module_name = property(_get_module_name)
 
     def render(self):
         return self.render_template('/')
 
     def render_module(self):
-        return self.render_template('/module' + self.request_path)
+        return self.render_template('/module%s' % self.request_path)
 
     def render_admin_edit(self):
-        return self.render_template('/admin/edit' + self.request_path)
+        return self.render_template('/admin/edit%s' % self.request_path)
 
     def render_admin_add(self):
-        return self.render_template('/admin/add' + self.request_path)
+        return self.render_template('/admin/add%s' % self.request_path)
 
     def render_template(self, path):
-        resolver = get_resolver('mittens.modules.%s.urls' % self.module_name)
+        resolver = get_resolver('%s.urls' % self.path)
         callback, callback_args, callback_kwargs = resolver.resolve(path)
 
         settings.request.model = self

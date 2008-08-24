@@ -17,7 +17,7 @@ class InstalledModules:
     def get_path_choices(self):
         choices = []
         for module in self.modules:
-            choices.append((module.path, module.name))
+            choices.append((module.path, module.display_name))
         return choices
 
 class Site(models.Model):
@@ -33,7 +33,7 @@ class Site(models.Model):
     class Admin:
         list_display = ('subdomain', 'name')
 
-class ModuleLink(models.Model):
+class ModuleInstance(models.Model):
     site = models.ForeignKey(Site, primary_key=False, related_name='modules', raw_id_admin=True)
     module_type = models.CharField(_('module type name'), max_length=255) # e.g. blog
     module_id = models.PositiveIntegerField(_('module id'))
@@ -58,7 +58,7 @@ class ModuleLink(models.Model):
         model = getattr(__import__('modules.%s.models' % module_name, '', '', module_name), module_name.capitalize())
         # return instance of module model (e.g. a Blog)
         instance = model.objects.get(id=self.module_id)
-        instance.link = self
+        instance.instance = self
         return instance
     module = property(_get_module)
 

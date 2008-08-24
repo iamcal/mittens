@@ -6,7 +6,7 @@
 	<h2>Your Modules</h2>
 	<br />
     {% for module in request.site.modules.all %}
-        {% ifequal module current_module.link %}
+        {% ifequal module current_module.instance %}
 	       <div class="module current">
         {% else %}
 	       <div class="module">
