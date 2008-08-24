@@ -1,5 +1,5 @@
 from django.template import loader
-from django.core.urlresolvers import get_resolver
+from django.core.urlresolvers import get_resolver, Resolver404
 from mittens import settings
 
 # base class for each type of module
@@ -37,6 +37,10 @@ class Module:
     def _get_path(self):
         return 'mittens.modules.%s' % self.type
     path = property(_get_path)
+    
+    def _get_url_path(self):
+        return '%s.urls' % self.path
+    url_path = property(_get_url_path)
 
     def _get_module_root(self):
         return "/%s/" % self.instance.module_label
@@ -63,8 +67,11 @@ class Module:
         return self.render_template('/admin/add%s' % self.request_path)
 
     def render_template(self, path):
-        resolver = get_resolver('%s.urls' % self.path)
-        callback, callback_args, callback_kwargs = resolver.resolve(path)
+        resolver = get_resolver(self.url_path)
+        try:
+            callback, callback_args, callback_kwargs = resolver.resolve(path)
+        except Resolver404:
+            return 'Error: missing url resolver for path %s in %s' % (path, self.url_path)
 
         settings.request.model = self
         response = callback(settings.request, *callback_args, **callback_kwargs)
