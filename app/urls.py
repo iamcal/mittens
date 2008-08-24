@@ -11,8 +11,8 @@ urlpatterns = patterns('mittens.app.views',
     
     (r'^%s/layout/$' % settings.APP_ADMIN_PATH, 'admin_layout'),
     #(r'^%s/((?P<module_label>[\w-]+)/$' % settings.APP_ADMIN_PATH, include('modules.%s.urls' % module_label)),
-    
-    (r'^%s/edit/((?P<module_label>[\w-]+)/)?$' % settings.APP_ADMIN_PATH, 'admin_edit'),
+
+    (r'^%s/edit/((?P<module_label>[\w-]+)/(?P<extra>.*/)?)?$' % settings.APP_ADMIN_PATH, 'admin_edit'),
     #(r'^%s/layout/$' % settings.APP_ADMIN_PATH, 'mittens', {'edit_mode': True}),
     (r'^%s/add/(?P<module_type>[\w-]+)/$' % settings.APP_ADMIN_PATH, 'admin_add'),
 )

@@ -12,9 +12,13 @@ class Module:
         return "/%s/" % self.link.id
     module_root = property(_get_module_root)
 
-    def _get_admin_root(self):
-        return "/%s/%s/" %(settings.APP_ADMIN_PATH, self.link.id)
-    admin_root = property(_get_admin_root)
+    def _get_admin_edit_root(self):
+        return "/%s/edit/%s/" %(settings.APP_ADMIN_PATH, self.link.module_label)
+    admin_edit_root = property(_get_admin_edit_root)
+
+    def _get_admin_add_root(self):
+        return "/%s/add/%s/" %(settings.APP_ADMIN_PATH, self.link.module_label)
+    admin_add_root = property(_get_admin_add_root)
 
     def _get_module_name(self):
         return self.__class__.__name__.lower()
