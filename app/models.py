@@ -3,32 +3,8 @@ from django.core import validators
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from mittens import settings
+from mittens.modules.models import Module
 import datetime
-
-class ModuleInfo:
-    def __init__(self, type, settings, path, name):
-        self.type = type
-        self.settings = settings
-        self.path = path
-        self.name = name
-    
-    def add_url(self):
-        #return reverse('admin_add', urlconf='app.urls', args=[self.type], kwargs=None)
-        #url = reverse('admin_add', urlconf='app.urls', kwargs={'module_type': self.type})
-        #print url
-        return '/%s/add/%s/' % (settings.APP_ADMIN_PATH, self.type)
-        
-    @staticmethod
-    def from_path(path):
-        type = path.rsplit('.', 1)[1].lower()
-        # TODO define these in the module settings
-        try:
-            settings = __import__('%s.settings' % path, '', '', 'settings')
-            name = settings.DISPLAY_NAME
-        except:
-            settings = None
-            name = type.capitalize()
-        return ModuleInfo(type, settings, path, name)
 
 class InstalledModules:
 
@@ -36,14 +12,13 @@ class InstalledModules:
         # create a module definition for each installed module
         self.modules = []
         for path in settings.INSTALLED_MODULES:
-            self.modules.append(ModuleInfo.from_path(path))
+            self.modules.append(Module.from_path(path))
 
     def get_path_choices(self):
         choices = []
         for module in self.modules:
             choices.append((module.path, module.name))
         return choices
-
 
 class Site(models.Model):
     subdomain = models.CharField(_('subdomain'), max_length=63, unique=True, db_index=True, validator_list=[validators.isAlphaNumeric])
@@ -68,7 +43,6 @@ class ModuleLink(models.Model):
 
     class Meta:
         ordering = ('in_column', 'in_order',)
-
 
     class Admin:
         list_display = ('id', 'site', 'module_type', 'module_id', 'module', 'in_column', 'in_order',)

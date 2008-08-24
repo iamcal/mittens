@@ -6,6 +6,24 @@ class Module:
 
     link = None		# points to the ModuleLink for this module instance
     request_path = '/'	# the request sub-path
+    
+    def __init__(self, type, settings, path, name):
+        self.type = type
+        self.settings = settings
+        self.path = path
+        self.name = name
+        
+    @staticmethod
+    def from_path(path):
+        type = path.rsplit('.', 1)[1].lower()
+        # TODO define these in the module settings
+        try:
+            settings = __import__('%s.settings' % path, '', '', 'settings')
+            name = settings.DISPLAY_NAME
+        except:
+            settings = None
+            name = type.capitalize()
+        return Module(type, settings, path, name)
 
     def _get_module_root(self):
         return "/%s/" % self.link.module_label

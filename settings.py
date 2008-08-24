@@ -74,11 +74,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'mittens.context_processors.settings',
 )
 
-INSTALLED_MODULES = (
-    'mittens.modules.blog',
-    'mittens.modules.flickr',
-)
-
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -89,6 +84,13 @@ INSTALLED_APPS = (
     'mittens.index',
     'mittens.app',
 )
+
+# TODO build this from apps just dropped into the modules folder
+INSTALLED_MODULES = (
+    'mittens.modules.blog',
+    'mittens.modules.flickr',
+)
+
 INSTALLED_APPS += INSTALLED_MODULES
 
 INDEX_ADMIN_PATH = 'admin'
