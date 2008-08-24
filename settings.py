@@ -85,13 +85,15 @@ INSTALLED_APPS = (
     'mittens.app',
 )
 
-# TODO build this from apps just dropped into the modules folder
-INSTALLED_MODULES = (
-    'mittens.modules.blog',
-    'mittens.modules.flickr',
-)
+# generate the installed modules based on any module dropped in the modules folder
+INSTALLED_MODULES = []
+for filename in os.listdir(os.path.join(ROOT_DIR, 'modules')):
+    path = os.path.join(ROOT_DIR, 'modules', filename)
+    # verify path is a directory/module and contains a urls.py
+    if os.path.isdir(path) and os.path.isfile(os.path.join(path, 'urls.py')):
+        INSTALLED_MODULES.append('mittens.modules.%s' % filename)
 
-INSTALLED_APPS += INSTALLED_MODULES
+INSTALLED_APPS += tuple(INSTALLED_MODULES)
 
 INDEX_ADMIN_PATH = 'admin'
 APP_ADMIN_PATH = 'admin'
