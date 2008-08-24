@@ -5,13 +5,15 @@ from mittens import settings
 
 urlpatterns = patterns('mittens.app.views',
     (r'^$', 'mittens'),
-    (r'^(?P<module_label>[\w-]+)/(?P<extra>.*/)?$', 'extras'),
 
     (r'^%s/layout/$' % settings.APP_ADMIN_PATH, 'admin_layout'),
     #(r'^%s/layout/$' % settings.APP_ADMIN_PATH, 'mittens', {'edit_mode': True}),
 
     (r'^%s/edit/((?P<module_label>[\w-]+)/(?P<extra>.*/)?)?$' % settings.APP_ADMIN_PATH, 'admin_edit'),
     (r'^%s/add/(?P<module_type>[\w-]+)/$' % settings.APP_ADMIN_PATH, 'admin_add'),
+
+    # this *must* go after the admin ones, else it'll catch /admin/ urls
+    (r'^(?P<module_label>[\w-]+)/(?P<extra>.*/)?$', 'extras'),
 )
 
 # namespace for each module and it's admin
