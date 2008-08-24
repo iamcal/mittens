@@ -8,8 +8,7 @@ class Module:
     request_path = '/'	# the request sub-path
 
     def _get_module_root(self):
-        # in the future, this will be the module 'label' instead
-        return "/%s/" % self.link.id
+        return "/%s/" % self.link.module_label
     module_root = property(_get_module_root)
 
     def _get_admin_edit_root(self):
