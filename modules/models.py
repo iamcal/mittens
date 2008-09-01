@@ -55,20 +55,36 @@ class Module:
         return "/%s/add/%s/" %(settings.APP_ADMIN_PATH, self.type)
     admin_add_root = property(_get_admin_add_root)
 
-    def render(self):
-        return self.render_template('/')
+    def render(self, request):
+        return self.render_template(request, '/')
 
-    def render_module(self):
-        return self.render_template('/module%s' % self.request_path)
+    def render_module(self, request):
+        return self.render_template(request, '/module%s' % self.request_path)
 
-    def render_admin_edit(self):
-        return self.render_template('/admin/edit%s' % self.request_path)
+    def render_admin_edit(self, request):
+        return self.render_template(request, '/admin/edit%s' % self.request_path)
 
-    def render_admin_add(self):
-        return self.render_template('/admin/add%s' % self.request_path)
+    #def render_admin_add(self):
+        #return self.render_template('/admin/add%s' % self.request_path)
+    def render_admin_add(self, request):
+        return self.render_template(request, '/admin/add%s' % self.request_path)
+    
+    def render_template(self, request, path):
+        # use the appropriate (current) request!!
+        
+        resolver = get_resolver(self.url_path)
+        try:
+            callback, callback_args, callback_kwargs = resolver.resolve(path)
+        except Resolver404:
+            return 'Error: missing url resolver for path %s in %s' % (path, self.url_path)
 
-    def render_template(self, path):
-        print 'render template ', path
+        request.model = self
+        response = callback(request, *callback_args, **callback_kwargs)
+
+        return response
+
+    def OLDrender_template(self, path):
+        
         resolver = get_resolver(self.url_path)
         try:
             callback, callback_args, callback_kwargs = resolver.resolve(path)

@@ -14,7 +14,7 @@ def admin(request):
     
 def add(request):
     print 'add new blog! need a form'
-    print request.method
+    print request.path
 
     if request.method == 'POST':
         form = BlogForm(request.POST)
