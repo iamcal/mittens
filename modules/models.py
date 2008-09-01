@@ -68,6 +68,7 @@ class Module:
         return self.render_template('/admin/add%s' % self.request_path)
 
     def render_template(self, path):
+        print 'render template ', path
         resolver = get_resolver(self.url_path)
         try:
             callback, callback_args, callback_kwargs = resolver.resolve(path)

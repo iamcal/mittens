@@ -14,10 +14,12 @@
             <a href="/admin/edit/{{ module.module_label }}/">{{ module.module_label }}</a>
         </div>
     {% endfor %}
-    <form id="add-module-form" method="post">
-        <label for="id_module_type">Add new </label>
-        {{ form.module_type }}<input type="submit" value="Add" class="button" />
-    </form>
+    <div>
+        Add new:
+        {% for module in request.installed_modules.modules %}
+            <a href="{{ module.admin_add_root }}">{{ module.type }}</a>
+        {% endfor %}
+    </div>
 </div>
 
 <div id="admin-pane">

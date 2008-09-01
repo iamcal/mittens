@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from mittens.modules.models import Module
+import django.newforms as forms
 import datetime
 
 class Blog(Module, models.Model):
@@ -17,6 +18,10 @@ class Blog(Module, models.Model):
         
     class Admin:
         list_display = ('id', 'name', 'date_created')
+        
+class BlogForm(forms.ModelForm):
+    class Meta:
+        model = Blog
 
 class Post(models.Model):
     title = models.CharField(_('title'), max_length=255, blank=True)

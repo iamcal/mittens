@@ -33,20 +33,10 @@ def admin_edit(request, module_label, extra=''):
         else: # TODO use reverse() function
             url = "/admin/edit/%s/" % module.module_label
             return http.HttpResponseRedirect(url)
-    
-    if request.method == 'POST':
-        form = forms.ModuleInstanceForm(request.POST)
-        if form.is_valid():
-            return http.HttpResponseRedirect(form.get_add_url(form.cleaned_data))
-        else:
-            print form.errors
-    else:
-        form = forms.ModuleInstanceForm()
 
     return render_to_response('admin/edit.html', {
         'admin_mode': 'EDIT',
         'current_module': module,
-        'form': form,
     }, context_instance=RequestContext(request))
 
 def admin_layout(request):
