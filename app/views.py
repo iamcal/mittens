@@ -13,14 +13,13 @@ def mittens(request):
 
 def extras(request, module_label, extra=''):
     settings.request = request
-    request.module = get_this_module(module_label, extra)
-
+    request.module = models.ModuleInstance.from_label(module_label, extra)
     return render_to_response('extras.html', {
     }, context_instance=RequestContext(request))
     
 def admin_edit(request, module_label, extra=''):
     settings.request = request
-    request.module = get_this_module(module_label, extra)
+    request.module = models.ModuleInstance.from_label(module_label, extra)
 
     if not request.module:
         try: # cal - exception handling is FAST in python, heh
@@ -48,16 +47,3 @@ def admin_add(request, module_type):
     return render_to_response('admin/add.html', {
         'admin_mode': 'ADD',
     }, context_instance=RequestContext(request))
-
-def get_this_module(module_label, extra):
-
-    try:
-        module = models.ModuleInstance.objects.get(module_label=module_label).module
-    except:
-        return None
-
-    # set the 'request path' to the extra bit of path
-    if extra is not None:
-        module.request_path = extra
-
-    return module

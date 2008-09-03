@@ -50,6 +50,16 @@ class ModuleInstance(models.Model):
     def __unicode__(self):
         # returns something like "blog:1 - Cal's lovely blog"
         return '%s:%s - %s' %(self.module_type, self.module_id, self.module.__unicode__())
+    
+    @staticmethod
+    def from_label(module_label, extra=None):
+        try:
+            module = ModuleInstance.objects.get(module_label=module_label).module
+        except ModuleInstance.DoesNotExist:
+            return None
+        if extra is not None:
+            module.request_path = extra
+        return module
 
     # module instance for this link
     def _get_module(self):
