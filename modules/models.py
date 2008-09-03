@@ -1,12 +1,12 @@
 from django.template import loader
-from django.core.urlresolvers import get_resolver, Resolver404
+from django.core.urlresolvers import get_resolver, Resolver404, NoReverseMatch
 from mittens import settings
 
 # base class for each type of module
 class Module:
 
     instance = None		# points to the ModuleInstance
-    request_path = '/'	# the request sub-path
+    request_path = ''	# the request sub-path
 
     @staticmethod
     def from_path(path):
@@ -54,25 +54,20 @@ class Module:
     def _get_admin_add_root(self):
         return "/%s/add/%s/" %(settings.APP_ADMIN_PATH, self.type)
     admin_add_root = property(_get_admin_add_root)
-
-    def render(self, request):
-        return self.render_template(request, '/')
-
-    def render_module(self, request):
-        return self.render_template(request, '/module%s' % self.request_path)
-
-    def render_admin_edit(self, request):
-        return self.render_template(request, '/admin/edit%s' % self.request_path)
-
-    #def render_admin_add(self):
-        #return self.render_template('/admin/add%s' % self.request_path)
-    def render_admin_add(self, request):
-        return self.render_template(request, '/admin/add%s' % self.request_path)
     
-    def render_template(self, request, path):
-        # use the appropriate (current) request!!
+    def _path_from_name(self, resolver, name):
+        return '/%s%s' % (resolver.reverse(name), self.request_path)
+    
+    def render_template(self, request, name):
         
         resolver = get_resolver(self.url_path)
+        try:
+            path = self._path_from_name(resolver, name)
+        except NoReverseMatch:
+            return 'Error: cannot find url named "%s" in %s' % (name, self.url_path)
+
+        print 'debug:', name, path
+
         try:
             callback, callback_args, callback_kwargs = resolver.resolve(path)
         except Resolver404:
@@ -80,18 +75,5 @@ class Module:
 
         request.model = self
         response = callback(request, *callback_args, **callback_kwargs)
-
-        return response
-
-    def OLDrender_template(self, path):
-        
-        resolver = get_resolver(self.url_path)
-        try:
-            callback, callback_args, callback_kwargs = resolver.resolve(path)
-        except Resolver404:
-            return 'Error: missing url resolver for path %s in %s' % (path, self.url_path)
-
-        settings.request.model = self
-        response = callback(settings.request, *callback_args, **callback_kwargs)
 
         return response

@@ -25,3 +25,8 @@ def admin2(request):
     return loader.render_to_string('flickr_admin2.html', {
         'flickr': request.model,
     }, context_instance=RequestContext(request))
+
+# TODO write real add view
+def adminadd(request):
+    return loader.render_to_string('flickr_admin2.html', {
+    }, context_instance=RequestContext(request))

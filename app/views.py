@@ -13,32 +13,28 @@ def mittens(request):
 
 def extras(request, module_label, extra=''):
     settings.request = request
-    module = get_this_module(module_label, extra)
+    request.module = get_this_module(module_label, extra)
 
     return render_to_response('extras.html', {
-        'current_module': module,
     }, context_instance=RequestContext(request))
     
 def admin_edit(request, module_label, extra=''):
     settings.request = request
-    module = get_this_module(module_label, extra)
+    request.module = get_this_module(module_label, extra)
 
-    if not module:
+    if not request.module:
         try: # cal - exception handling is FAST in python, heh
             # get the first module
             # TODO make this the first by user pref
-            module = request.site.modules.all()[0]
+            request.module = request.site.modules.all()[0]
         except IndexError:
             print "oops - we need to show a 'no modules' page..."
         else: # TODO use reverse() function
-            url = "/admin/edit/%s/" % module.module_label
+            url = "/admin/edit/%s/" % request.module.module_label
             return http.HttpResponseRedirect(url)
 
     return render_to_response('admin/edit.html', {
         'admin_mode': 'EDIT',
-        'current_module': module,
-        # TODO write filter or template tag for this
-        'render_template': module.render_admin_edit(request),
     }, context_instance=RequestContext(request))
 
 def admin_layout(request):
@@ -48,12 +44,9 @@ def admin_layout(request):
     }, context_instance=RequestContext(request))
     
 def admin_add(request, module_type):
-    module = Module.from_type(module_type)
+    request.module = Module.from_type(module_type)
     return render_to_response('admin/add.html', {
         'admin_mode': 'ADD',
-        'module': module,
-        # TODO write filter or template tag for this
-        'render_template': module.render_admin_add(request),
     }, context_instance=RequestContext(request))
 
 def get_this_module(module_label, extra):
@@ -63,10 +56,8 @@ def get_this_module(module_label, extra):
     except:
         return None
 
-    # this is inside try/except because extra might be None
-    try:
-        module.request_path = '/' + extra
-    except:
-        pass
+    # set the 'request path' to the extra bit of path
+    if extra is not None:
+        module.request_path = extra
 
     return module

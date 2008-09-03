@@ -1,3 +1,4 @@
+{% load render_template %}
 <div class="module module-{{ module.module.module_name }}" id="{{ module.module.module_name }}-{{ module.module_id }}">
     {% if edit_mode %}
         <div class="module-bar">
@@ -6,6 +7,7 @@
         </div>
     {% endif %}
     <div class="module-inner module-inner-{{ module.module.module_name }}">
+        {% render_template request 'module' module.module %}
         {{ module.module.render }}
     </div>
 </div>

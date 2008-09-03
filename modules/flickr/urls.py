@@ -1,10 +1,10 @@
 from django.conf.urls.defaults import *
 
-urlpatterns = patterns('',
-    (r'^$',                'mittens.modules.flickr.views.module'),
-    (r'^module/$',         'mittens.modules.flickr.views.module2'),
-    (r'^module/more/$',    'mittens.modules.flickr.views.module3'),
-    (r'^admin/add/$',      'mittens.modules.flickr.views.adminadd'),	# e.g. /admin/add/flickr/
-    (r'^admin/edit/$',     'mittens.modules.flickr.views.admin'),	# e.g. /admin/edit/my-flickr/
-    (r'^admin/edit/sub/$', 'mittens.modules.flickr.views.admin2'),	# e.g. /admin/edit/my-flickr/sub/
+urlpatterns = patterns('mittens.modules.flickr.views',
+    url(r'^$',            'module',   name='module'),
+    url(r'^module/$',     'module2',  name='extra'),
+    (r'^module/more/$',   'module3'),
+    url(r'^admin/add/$',  'adminadd', name='admin_add'),	# e.g. /admin/add/flickr/
+    url(r'^admin/edit/$', 'admin',    name='admin_edit'),	# e.g. /admin/edit/my-flickr/
+    (r'^admin/edit/sub/$', 'admin2'),	# e.g. /admin/edit/my-flickr/sub/
 )
