@@ -6,19 +6,16 @@ from mittens.modules.models import Module
 from mittens import settings
 
 def mittens(request):
-    settings.request = request
     return render_to_response('mittens.html', {
         'edit_mode': False,
     }, context_instance=RequestContext(request))
 
 def extras(request, module_label, extra=''):
-    settings.request = request
     request.module = models.ModuleInstance.from_label(module_label, extra)
     return render_to_response('extras.html', {
     }, context_instance=RequestContext(request))
     
 def admin_edit(request, module_label, extra=''):
-    settings.request = request
     request.module = models.ModuleInstance.from_label(module_label, extra)
 
     if not request.module:
