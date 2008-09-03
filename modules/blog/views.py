@@ -1,3 +1,4 @@
+from django import http
 from django.template import RequestContext
 from django.template import loader
 from mittens.modules.blog.models import BlogForm
@@ -13,17 +14,18 @@ def admin(request):
     }, context_instance=RequestContext(request))
     
 def add(request):
-    print 'add new blog! need a form'
-    print request.path
 
     if request.method == 'POST':
-        form = BlogForm(request.POST)
+        form = BlogForm(request.site, request.POST)
         if form.is_valid():
-            print 'form is valid'
+            blog = form.save_instance()
+            # TODO - return a more useful string
+            #return http.HttpResponseRedirect(blog.admin_edit_root)
+            return 'Blog created! <a href="%s">Edit your blog?</a>' % blog.admin_edit_root
         else:
             print form.errors
     else:
-        form = BlogForm()
+        form = BlogForm(request.site)
 
     return loader.render_to_string('blog/add.html', {
         'form': form,
