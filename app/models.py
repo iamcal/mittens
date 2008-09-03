@@ -3,12 +3,12 @@ from django.core import validators
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from mittens import settings
-from mittens.modules.models import Module
 import datetime
 
 class InstalledModules:
 
     def __init__(self):
+        from mittens.modules.models import Module
         # create a module definition for each installed module
         self.modules = []
         for path in settings.INSTALLED_MODULES:

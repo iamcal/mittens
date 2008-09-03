@@ -1,9 +1,6 @@
 from django.db import models
-from django.core import validators
 from django.utils.translation import ugettext_lazy as _
-from mittens.app.models import ModuleInstance
-from mittens.modules.models import Module
-import django.newforms as forms
+from mittens.modules.models import Module, ModuleForm
 import datetime
 
 class Blog(Module, models.Model):
@@ -21,41 +18,11 @@ class Blog(Module, models.Model):
     class Admin:
         list_display = ('id', 'name', 'date_created')
 
-# TODO - move __init__, clean_label, and save_instance methods into a generic
-# app.models.ModuleForm that extends forms.ModelForm
-class BlogForm(forms.ModelForm):
+class BlogForm(ModuleForm):
 
-    label = forms.RegexField(regex=validators.slug_re)
-    
-    def __init__(self, site, *args, **kwargs):
-        self.site = site
-        super(self.__class__, self).__init__(*args, **kwargs)
-    
-    def clean_label(self):
-        label = self.cleaned_data['label']
-        try: # check for dupe labels in my site
-            ModuleInstance.objects.get(site=self.site, module_label=label)
-            raise forms.ValidationError('Label must be unique to your site.')
-        except ModuleInstance.DoesNotExist:
-            pass
-        return label
-
-    def save_instance(self):
-        module = self.save()
-        # tie the module to a ModuleInstance object
-        instance = ModuleInstance(
-                site=self.site,
-                module_type=module.type,
-                module_id=module.id,
-                module_label=self.cleaned_data['label'],
-            )
-        instance.save()
-        module.instance = instance
-        return module
-        
     class Meta:
         model = Blog
-        fields = ('label', 'name')
+        fields = ('name')
 
 class Post(models.Model):
     title = models.CharField(_('title'), max_length=255, blank=True)

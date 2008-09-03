@@ -1,5 +1,8 @@
 from django.template import loader
 from django.core.urlresolvers import get_resolver, Resolver404, NoReverseMatch
+from django.core import validators
+import django.newforms as forms
+from mittens.app.models import ModuleInstance
 from mittens import settings
 
 # base class for each type of module
@@ -77,3 +80,36 @@ class Module:
         response = callback(request, *callback_args, **callback_kwargs)
 
         return response
+
+class ModuleForm(forms.ModelForm):
+
+    label = forms.RegexField(regex=validators.slug_re)
+    
+    def __init__(self, site, *args, **kwargs):
+        self.site = site
+        super(ModuleForm, self).__init__(*args, **kwargs)
+    
+    def clean_label(self):
+        label = self.cleaned_data['label']
+        try: # check for dupe labels in my site
+            ModuleInstance.objects.get(site=self.site, module_label=label)
+            raise forms.ValidationError('Label must be unique to your site.')
+        except ModuleInstance.DoesNotExist:
+            pass
+        return label
+
+    def save_instance(self):
+        module = self.save()
+        # tie the module to a ModuleInstance object for this site
+        instance = ModuleInstance(
+                site=self.site,
+                module_type=module.type,
+                module_id=module.id,
+                module_label=self.cleaned_data['label'],
+            )
+        instance.save()
+        module.instance = instance
+        return module
+        
+    class Meta:
+        fields = ('label') # required for each module form
